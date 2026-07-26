@@ -26,7 +26,10 @@ def save_state(state):
 
 def send_message(text):
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
-    resp = requests.post(url, data={"chat_id": CHANNEL_ID, "text": text})
+    resp = requests.post(
+        url,
+        data={"chat_id": CHANNEL_ID, "text": f"<b>{text}</b>", "parse_mode": "HTML"},
+    )
     resp.raise_for_status()
 
 
