@@ -2,7 +2,7 @@ name: Azkar Bot
 
 on:
   schedule:
-    - cron: "*/15 * * * *"
+    - cron: "3,18,33,48 * * * *"
   workflow_dispatch: {}
 
 permissions:
@@ -33,4 +33,3 @@ jobs:
           git add state.json
           git diff --staged --quiet || git commit -m "update state"
           git push
-          
