@@ -33,6 +33,19 @@ def send_message(text):
     resp.raise_for_status()
 
 
+def log_send(state, kind, text):
+    log = state.setdefault("log", [])
+    preview = text.replace("\n", " ")[:60]
+    log.append(
+        {
+            "time": datetime.now(TZ).strftime("%Y-%m-%d %H:%M"),
+            "kind": kind,
+            "preview": preview,
+        }
+    )
+    state["log"] = log[-20:]
+
+
 def next_from_queue(config, state, list_key, queue_key):
     items = config[list_key]
     queue = state.get(queue_key) or []
@@ -49,6 +62,9 @@ def main():
     state = load_json(STATE_PATH)
     sent_special = state.setdefault("sent_special", {})
 
+    if state.get("paused"):
+        return
+
     now = datetime.now(TZ)
     today_str = now.strftime("%Y-%m-%d")
     hhmm = now.strftime("%H:%M")
@@ -61,6 +77,7 @@ def main():
     # 1) أول رسالة يوم الجمعة (مرة وحدة كل جمعة)
     if is_friday and sent_special.get("friday_first") != today_str:
         send_message(config["friday_first_message"])
+        log_send(state, "friday_first", config["friday_first_message"])
         sent_special["friday_first"] = today_str
         save_state(state)
         return
@@ -71,6 +88,7 @@ def main():
         and sent_special.get("fajr", "") != today_str
     ):
         send_message(config["fajr_message"])
+        log_send(state, "fajr", config["fajr_message"])
         sent_special["fajr"] = today_str
         save_state(state)
         return
@@ -81,6 +99,7 @@ def main():
         and sent_special.get("asr", "") != today_str
     ):
         send_message(config["asr_message"])
+        log_send(state, "asr", config["asr_message"])
         sent_special["asr"] = today_str
         save_state(state)
         return
@@ -92,6 +111,7 @@ def main():
         and sent_special.get("sunday_evening") != today_str
     ):
         send_message(config["sunday_evening_message"])
+        log_send(state, "sunday_evening", config["sunday_evening_message"])
         sent_special["sunday_evening"] = today_str
         save_state(state)
         return
@@ -103,6 +123,7 @@ def main():
         and sent_special.get("wednesday_evening") != today_str
     ):
         send_message(config["wednesday_evening_message"])
+        log_send(state, "wednesday_evening", config["wednesday_evening_message"])
         sent_special["wednesday_evening"] = today_str
         save_state(state)
         return
@@ -114,6 +135,7 @@ def main():
         text = next_from_queue(config, state, "azkar", "general_queue")
 
     send_message(text)
+    log_send(state, "azkar", text)
     save_state(state)
 
 
