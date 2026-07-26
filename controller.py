@@ -50,6 +50,13 @@ def cmd_help(chat_id):
             "/addfriday نص — إضافة ذكر جمعة\n"
             "/delete رقم — حذف ذكر عام\n"
             "/deletefriday رقم — حذف ذكر جمعة\n"
+            "/edit رقم نص_جديد — تعديل ذكر عام\n"
+            "/editfriday رقم نص_جديد — تعديل ذكر جمعة\n"
+            "/editfridayfirst نص_جديد — تعديل أول رسالة الجمعة\n"
+            "/editfajr نص_جديد — تعديل رسالة الفجر\n"
+            "/editasr نص_جديد — تعديل رسالة العصر\n"
+            "/editsunday نص_جديد — تعديل رسالة مساء الأحد\n"
+            "/editwednesday نص_جديد — تعديل رسالة مساء الأربعاء\n"
             "/test نص — إرسال رسالة تجريبية فورية للقناة\n"
             "/pause — إيقاف البوت مؤقتًا\n"
             "/resume — تشغيل البوت من جديد\n"
@@ -89,6 +96,33 @@ def cmd_delete(chat_id, config, num_str, key="azkar"):
         tg_send(chat_id, "رقم غير صحيح. استخدم /list لمعرفة الأرقام.")
         return False
     tg_send(chat_id, f"تم الحذف ✅\n{removed[:150]}")
+    return True
+
+
+def cmd_edit(chat_id, config, rest, key="azkar"):
+    parts = rest.split(" ", 1)
+    if len(parts) < 2:
+        tg_send(chat_id, "الصيغة: /edit رقم النص_الجديد")
+        return False
+    num_str, new_text = parts
+    try:
+        idx = int(num_str) - 1
+        old = config[key][idx]
+        config[key][idx] = new_text
+    except (ValueError, IndexError):
+        tg_send(chat_id, "رقم غير صحيح. استخدم /list لمعرفة الأرقام.")
+        return False
+    tg_send(chat_id, f"تم التعديل ✅\nقبل: {old[:100]}\nبعد: {new_text[:100]}")
+    return True
+
+
+def cmd_edit_single(chat_id, config, key, new_text):
+    if not new_text:
+        tg_send(chat_id, "لازم تكتب النص الجديد بعد الأمر.")
+        return False
+    old = config.get(key, "")
+    config[key] = new_text
+    tg_send(chat_id, f"تم التعديل ✅\nقبل: {old[:100]}\nبعد: {new_text[:100]}")
     return True
 
 
@@ -136,6 +170,20 @@ def handle_command(chat_id, text, config, state):
 
     if text.startswith("/list"):
         cmd_list(chat_id, config)
+    elif text.startswith("/editfriday "):
+        config_changed = cmd_edit(chat_id, config, text[len("/editfriday "):].strip(), "friday_azkar")
+    elif text.startswith("/edit "):
+        config_changed = cmd_edit(chat_id, config, text[len("/edit "):].strip())
+    elif text.startswith("/editfridayfirst "):
+        config_changed = cmd_edit_single(chat_id, config, "friday_first_message", text[len("/editfridayfirst "):].strip())
+    elif text.startswith("/editfajr "):
+        config_changed = cmd_edit_single(chat_id, config, "fajr_message", text[len("/editfajr "):].strip())
+    elif text.startswith("/editasr "):
+        config_changed = cmd_edit_single(chat_id, config, "asr_message", text[len("/editasr "):].strip())
+    elif text.startswith("/editsunday "):
+        config_changed = cmd_edit_single(chat_id, config, "sunday_evening_message", text[len("/editsunday "):].strip())
+    elif text.startswith("/editwednesday "):
+        config_changed = cmd_edit_single(chat_id, config, "wednesday_evening_message", text[len("/editwednesday "):].strip())
     elif text.startswith("/addfriday "):
         config_changed = cmd_add(chat_id, config, text[len("/addfriday "):].strip(), "friday_azkar")
     elif text.startswith("/add "):
