@@ -62,7 +62,27 @@ def main():
         save_state(state)
         return
 
-    # 2) رسالة مساء الأحد (مرة وحدة كل أحد)
+    # 2) رسالة الفجر اليومية (مرة وحدة كل يوم)
+    if (
+        hhmm >= config["fajr_time"]
+        and sent_special.get("fajr", "") != today_str
+    ):
+        send_message(config["fajr_message"])
+        sent_special["fajr"] = today_str
+        save_state(state)
+        return
+
+    # 3) رسالة العصر اليومية (مرة وحدة كل يوم)
+    if (
+        hhmm >= config["asr_time"]
+        and sent_special.get("asr", "") != today_str
+    ):
+        send_message(config["asr_message"])
+        sent_special["asr"] = today_str
+        save_state(state)
+        return
+
+    # 4) رسالة مساء الأحد (مرة وحدة كل أحد)
     if (
         is_sunday
         and hhmm >= config["sunday_evening_time"]
@@ -73,7 +93,7 @@ def main():
         save_state(state)
         return
 
-    # 3) رسالة مساء الأربعاء (مرة وحدة كل أربعاء)
+    # 5) رسالة مساء الأربعاء (مرة وحدة كل أربعاء)
     if (
         is_wednesday
         and hhmm >= config["wednesday_evening_time"]
@@ -84,7 +104,7 @@ def main():
         save_state(state)
         return
 
-    # 4) باقي الأوقات: أذكار عشوائية بدون تكرار لحد ما تخلص القائمة
+    # 6) باقي الأوقات: أذكار عشوائية بدون تكرار لحد ما تخلص القائمة
     if is_friday:
         text = next_from_queue(config, state, "friday_azkar", "friday_queue")
     else:
