@@ -1,7 +1,5 @@
 {
-  "general_queue": [
-    12
-  ],
+  "general_queue": [],
   "friday_queue": [],
   "sent_special": {
     "fajr": "2026-07-27",
@@ -9,11 +7,6 @@
     "sunday_evening": "2026-07-26"
   },
   "log": [
-    {
-      "time": "2026-07-27 01:45",
-      "kind": "azkar",
-      "preview": "اللّٰه أكبر"
-    },
     {
       "time": "2026-07-27 02:00",
       "kind": "azkar",
@@ -108,6 +101,11 @@
       "time": "2026-07-27 06:30",
       "kind": "azkar",
       "preview": "ربِّ إني ظلمت نفسي فاغفر لي"
+    },
+    {
+      "time": "2026-07-27 06:45",
+      "kind": "azkar",
+      "preview": "لا إله إلا أنت سبحانك إني كنت من الظالمين"
     }
   ]
 }
