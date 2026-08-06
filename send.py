@@ -129,7 +129,7 @@ def main():
         return
 
     # 6) باقي الأوقات: أذكار عشوائية بدون تكرار لحد ما تخلص القائمة
-    if is_friday:
+    if is_friday and hhmm < config["friday_maghrib_time"]:
         text = next_from_queue(config, state, "friday_azkar", "friday_queue")
     else:
         text = next_from_queue(config, state, "azkar", "general_queue")
