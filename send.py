@@ -30,6 +30,8 @@ def send_message(text):
         url,
         data={"chat_id": CHANNEL_ID, "text": f"<b>{text}</b>", "parse_mode": "HTML"},
     )
+    if resp.status_code != 200:
+        print("TELEGRAM ERROR RESPONSE:", resp.text)
     resp.raise_for_status()
 
 
