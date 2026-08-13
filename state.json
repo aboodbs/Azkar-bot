@@ -1,7 +1,5 @@
 {
-  "general_queue": [
-    11
-  ],
+  "general_queue": [],
   "friday_queue": [],
   "sent_special": {
     "fajr": "2026-08-12",
@@ -11,11 +9,6 @@
     "friday_first": "2026-08-07"
   },
   "log": [
-    {
-      "time": "2026-08-12 22:00",
-      "kind": "azkar",
-      "preview": "لا حول ولا قوة إلا باللّٰه"
-    },
     {
       "time": "2026-08-12 22:15",
       "kind": "azkar",
@@ -110,6 +103,11 @@
       "time": "2026-08-13 02:45",
       "kind": "azkar",
       "preview": "رضيت بالله ربا وبالإسلام دينا وبمحمد ﷺ رسولا"
+    },
+    {
+      "time": "2026-08-13 03:00",
+      "kind": "azkar",
+      "preview": "أستغفر الله العظيم وأتوب إليه"
     }
   ],
   "paused": false
