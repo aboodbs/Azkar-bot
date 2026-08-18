@@ -1,7 +1,5 @@
 {
-  "general_queue": [
-    3
-  ],
+  "general_queue": [],
   "friday_queue": [
     0
   ],
@@ -13,11 +11,6 @@
     "friday_first": "2026-08-14"
   },
   "log": [
-    {
-      "time": "2026-08-18 17:15",
-      "kind": "azkar",
-      "preview": "الحمد للّٰه"
-    },
     {
       "time": "2026-08-18 17:30",
       "kind": "azkar",
@@ -112,6 +105,11 @@
       "time": "2026-08-18 22:00",
       "kind": "azkar",
       "preview": "ربِّ إني لما أنزلت إليَّ من خير فقير"
+    },
+    {
+      "time": "2026-08-18 22:15",
+      "kind": "azkar",
+      "preview": "لا إله إلا اللّٰه"
     }
   ],
   "paused": false
